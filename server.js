@@ -31,19 +31,38 @@ app.get('/list', (req,res)=>{
 
     // res.sendFile(__dirname+'/html/list.html');
 });
+// post요청에선 req안에 사용자가 담은 정보가 있음
 app.post('/add', (req,res)=>{
     // res.send('전송성공')
     // console.log(req.body.title)
-    db.collection('post').insertOne(
-        {
-            이름: req.body.title,
-            날짜: req.body.date
-        },
-        (error, res)=>{
-            console.log(error);
-        }
-
-    )
-});
+    db.collection('counter').findOne({name: '사물갯수'}, (error, res) => {
+        var totalPost =res.totalpost;
+        // totalpost 바뀐 값을 다시 db로 보내야돼
+        db.collection('counter').updateOne(
+            // 수정할 데이터, 수정한 값, 콜백
+            {name : '사물갯수'},
+            { // operator
+                $inc : {
+                    totalPost : 1
+            }
+        });
+        
+        db.collection('post').insertOne(
+            {
+                _id : totalPost,
+                이름: req.body.title,
+                날짜: req.body.date
+            },
+            (error, res)=>{
+                console.log("post error"+ error);
+               
+            }
+    
+        )
+    });
+    
+    
+    })
+    
 
 //
