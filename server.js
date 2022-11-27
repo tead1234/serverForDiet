@@ -36,7 +36,7 @@ app.post('/add', (req,res)=>{
     // res.send('전송성공')
     // console.log(req.body.title)
     db.collection('counter').findOne({name: '사물갯수'}, (error, res) => {
-        var totalPost =res.totalpost;
+        
         // totalpost 바뀐 값을 다시 db로 보내야돼
         db.collection('counter').updateOne(
             // 수정할 데이터, 수정한 값, 콜백
@@ -45,8 +45,9 @@ app.post('/add', (req,res)=>{
                 $inc : {
                     totalPost : 1
             }
-        });
-        
+        );
+})
+        var totalPost =res.totalpost;
         db.collection('post').insertOne(
             {
                 _id : totalPost,
@@ -54,15 +55,17 @@ app.post('/add', (req,res)=>{
                 날짜: req.body.date
             },
             (error, res)=>{
-                console.log("post error"+ error);
-               
+                console.log("post error"+ error);  
             }
-    
         )
-    });
-    
-    
+};
+// DELETE 
+app.delete('/delete',(req, res)=>{
+    req.body._id = parseInt(req.body._id);
+    db.collection('post').deleteOne(req.body._id, (err, res)=>{
+        console.log('complete');
     })
-    
+    res.send('complete');
+})
 
 //

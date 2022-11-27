@@ -9,14 +9,47 @@
 </head>
 <body>
   <!-- ejs문법 어렵네 -->
-  <% for (var i = 0; i < posts.length; i ++) { %>
-    <h4><%= posts[i].이름 %></h4>
-    <p><%= posts[i].날짜 %></p>
-  <% } %>
+
+  <ul class = "list-group">
+    <% for ( let i = 0 ; i < posts.length; i ++) { %>
+      <li class = "list-group-item">
+        <h4>할일 제목 : <%= posts[i].이름 %> </h4>
+        <p>할일 마감일 : <%= posts[i].날짜 %> </p>
+        <button class="delete" >삭제</button>
+      </li>
+    <% } %>
+  </ul>
+  <!-- <ul class="list-group">
+    <% for (var i = 0; i < posts.length; i++){ %>
+    <li class="list-group-item">
+      <h4> 할일 제목 : <%= posts[i].제목 %> </h4>
+      <p> 할일 마감날짜 : <%= posts[i].날짜 %> </p>
+      <button>삭제</button>
+    </li>
+    <% } %>
+  </ul> -->
 
 
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  
+
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  <script>
+    $('.delete').click(()=>{
+        $.ajax({
+        method: 'DELETE',
+        url : "/delete",
+        data: {_id : 0}
+      }).done((res)=>{
+        console.log("sucess");
+      }).fail((error)=>{
+        console.log(err)
+      })
+    })
+    
+  </script>
+
 </body>
 </html>
