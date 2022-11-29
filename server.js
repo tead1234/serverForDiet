@@ -44,11 +44,9 @@ app.post('/add', (req,res)=>{
             { // operator
                 $inc : {
                     totalPost : 1
-            }
-        );
-})
-        var totalPost =res.totalpost;
-        db.collection('post').insertOne(
+            },()=>{
+                var totalPost =res.totalpost;
+                db.collection('post').insertOne(
             {
                 _id : totalPost,
                 이름: req.body.title,
@@ -57,8 +55,15 @@ app.post('/add', (req,res)=>{
             (error, res)=>{
                 console.log("post error"+ error);  
             }
-        )
-};
+        
+    );
+
+
+            })
+        
+})
+        
+
 // DELETE 
 app.delete('/delete',(req, res)=>{
     req.body._id = parseInt(req.body._id);
